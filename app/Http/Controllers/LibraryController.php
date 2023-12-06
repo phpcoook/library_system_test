@@ -25,9 +25,11 @@ class LibraryController extends Controller
             JOIN book_publishers ON books.id = book_publishers.book_id
             JOIN publishers ON publishers.id = book_publishers.publisher_id
             GROUP BY books.id, books.title, books.publication_at
-            LIMIT :perPage OFFSET :offset", ['perPage' => $perPage, 'offset' => $offset]);
+            LIMIT :perPage OFFSET :offset",
+                ['perPage' => $perPage, 'offset' => $offset]);
 
-            $totalCount = \DB::selectOne("SELECT COUNT(*) AS total FROM books")->total;
+            $totalCount
+                = \DB::selectOne("SELECT COUNT(*) AS total FROM books")->total;
             $totalPages = ceil($totalCount / $perPage);
             $booksArray = json_decode(json_encode($books), true);
 
@@ -36,10 +38,18 @@ class LibraryController extends Controller
                 'totalPages' => $totalPages,
             ])->render();
 
-            return response()->json(['success' => true, 'view' => $view, 'message' => 'loading success']);
+            return response()->json([
+                'success' => true,
+                'view'    => $view,
+                'message' => 'loading success'
+            ]);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'loading failed']);
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'loading failed'
+            ]);
         }
     }
 }

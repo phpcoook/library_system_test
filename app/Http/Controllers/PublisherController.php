@@ -12,11 +12,19 @@ class PublisherController extends Controller
         try {
             $publishers = \DB::select("SELECT * FROM publishers");
 
-            return response()->json(['success' => true, 'data' => $publishers, 'Total Records' => count($publishers)],
+            return response()->json([
+                'success'       => true,
+                'data'          => $publishers,
+                'Total Records' => count($publishers)
+            ],
                 200);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -27,22 +35,31 @@ class PublisherController extends Controller
                 throw new \Exception('Publisher Name is required', 404);
             }
 
-            $publisher = \DB::select("SELECT * FROM publishers WHERE name = '$request->name'");
+            $publisher
+                = \DB::select("SELECT * FROM publishers WHERE name = '$request->name'");
 
-            if(!empty($publisher)) {
-                throw new \Exception('Same name publisher has already exist', 404);
+            if (!empty($publisher)) {
+                throw new \Exception('Same name publisher has already exist',
+                    404);
             }
 
             \DB::table('publishers')->insert([
-                'name' => $request->name,
+                'name'       => $request->name,
                 'created_at' => \DB::raw('now()'),
                 'updated_at' => \DB::raw('now()')
             ]);
 
-            return response()->json(['success' => true, 'message' => 'Publisher Added Successfully'], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Publisher Added Successfully'
+            ], 200);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -51,10 +68,15 @@ class PublisherController extends Controller
         try {
             $author = \DB::select("SELECT * FROM publishers WHERE id = $id");
 
-            return response()->json(['success' => true, 'data' => $author], 200);
+            return response()->json(['success' => true, 'data' => $author],
+                200);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -62,20 +84,29 @@ class PublisherController extends Controller
     {
         try {
 
-            $findPublisher = \DB::select("SELECT * FROM publishers WHERE name = '$request->name' AND id != $id");
+            $findPublisher
+                = \DB::select("SELECT * FROM publishers WHERE name = '$request->name' AND id != $id");
 
             if (!empty($findPublisher)) {
-                throw new \Exception('Same name publisher has already exist', 404);
+                throw new \Exception('Same name publisher has already exist',
+                    404);
             }
 
             \DB::table('publishers')
                 ->where('id', $id)
                 ->update(['name' => $request->name]);
 
-            return response()->json(['success' => true, 'data' => 'Publisher Updated Successfully'], 200);
+            return response()->json([
+                'success' => true,
+                'data'    => 'Publisher Updated Successfully'
+            ], 200);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -83,10 +114,17 @@ class PublisherController extends Controller
     {
         try {
             \DB::table('publishers')->where('id', $id)->delete();
-            return response()->json(['success' => true, 'data' => 'Publisher Deleted Successfully'], 200);
+            return response()->json([
+                'success' => true,
+                'data'    => 'Publisher Deleted Successfully'
+            ], 200);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -107,32 +145,37 @@ class PublisherController extends Controller
             $publisherIds = [];
 
             $publisherNames = implode("','", $request->name);
-            $findPublisher = \DB::select("SELECT * FROM publishers WHERE name In ('$publisherNames')");
+            $findPublisher
+                = \DB::select("SELECT * FROM publishers WHERE name In ('$publisherNames')");
             if (!empty($findPublisher)) {
-                throw new \Exception('Same name publisher has already exist', 404);
+                throw new \Exception('Same name publisher has already exist',
+                    404);
             }
 
             $authorNames = implode("','", $request->author_name);
-            $findAuthor = \DB::select("SELECT * FROM authors WHERE name In ('$authorNames')");
+            $findAuthor
+                = \DB::select("SELECT * FROM authors WHERE name In ('$authorNames')");
             if (!empty($findAuthor)) {
                 throw new \Exception('Same name author has already exist', 404);
             }
 
-            $findBook = \DB::select("SELECT * FROM books WHERE title = '$request->book_title'");
+            $findBook
+                = \DB::select("SELECT * FROM books WHERE title = '$request->book_title'");
             if (!empty($findBook)) {
                 throw new \Exception('Same name book has already exist', 404);
             }
 
             $book = \DB::table('books')->insertGetId([
-                'title' => $request->book_title,
-                'publication_at' => date('Y-m-d', strtotime($request->book_publication_at)),
-                'created_at' => \DB::raw('now()'),
-                'updated_at' => \DB::raw('now()')
+                'title'          => $request->book_title,
+                'publication_at' => date('Y-m-d',
+                    strtotime($request->book_publication_at)),
+                'created_at'     => \DB::raw('now()'),
+                'updated_at'     => \DB::raw('now()')
             ]);
 
             foreach ($request->author_name as $author) {
                 $author = \DB::table('authors')->insertGetId([
-                    'name' => $author,
+                    'name'       => $author,
                     'created_at' => \DB::raw('now()'),
                     'updated_at' => \DB::raw('now()')
                 ]);
@@ -141,7 +184,7 @@ class PublisherController extends Controller
 
             foreach ($request->name as $item) {
                 $publisher = \DB::table('publishers')->insertGetId([
-                    'name' => $item,
+                    'name'       => $item,
                     'created_at' => \DB::raw('now()'),
                     'updated_at' => \DB::raw('now()')
                 ]);
@@ -152,14 +195,14 @@ class PublisherController extends Controller
 
                 foreach ($authorIds as $author) {
                     \DB::table('book_authors')->insert([
-                        'book_id' => $book,
+                        'book_id'   => $book,
                         'author_id' => $author,
                     ]);
                 }
 
                 foreach ($publisherIds as $publisher) {
                     \DB::table('book_publishers')->insert([
-                        'book_id' => $book,
+                        'book_id'      => $book,
                         'publisher_id' => $publisher,
                     ]);
                 }
@@ -167,10 +210,17 @@ class PublisherController extends Controller
                 throw new \Exception('SOMETHING WENT WRONG!', 404);
             }
 
-            return response()->json(['success' => true, 'message' => 'Book Published Successfully'], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Book Published Successfully'
+            ], 200);
         } catch (\Exception $e) {
-            Log::info('File :: ' . __FILE__ . ' Line :: ' . __LINE__ . ' Message :: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], $e->getCode());
+            Log::info('File :: '.__FILE__.' Line :: '.__LINE__.' Message :: '
+                .$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 }
