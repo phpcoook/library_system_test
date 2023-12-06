@@ -1,6 +1,6 @@
 #Project Info and API Documentation
 
-###Introduction
+## Introduction
 The Library Management System is an automated software solution designed to streamline the management of a library. It provides functionalities to add books, their authors and the publishers.
 
 Welcome to the documentation for the API. This API allows you to perform basic operations of library management system.
@@ -9,14 +9,14 @@ Welcome to the documentation for the API. This API allows you to perform basic o
 
 Run the below command to install & run the project
 
-- ######Create a database with the name of 'library'
-- ######Composer install
-- ######php artisan migrate
-- ######php artisan serve
+- Create a database with the name of 'library'
+- Composer install
+- php artisan migrate
+- php artisan serve
 
 ## Getting Started
 
-##### Publish Book 
+### Publish Book 
 
 - **Endpoint:** '/api/publish-book'
 - **Method:** POST
@@ -32,12 +32,10 @@ Run the below command to install & run the project
 ##### List
 - **Endpoint:** '/api/author'
 - **Method:** GET
-- **Request Body:** ```{  }```
 
 ##### Read
 - **Endpoint:** '/api/author/:id'
 - **Method:** GET
-- **Request Body:** ```{  }```
 
 ##### Update
 - **Endpoint:** '/api/author/:id'
@@ -47,7 +45,6 @@ Run the below command to install & run the project
 ##### Delete
 - **Endpoint:** '/api/author/:id'
 - **Method:** DELETE
-- **Request Body:** ```{  }```
 
 ### Book Module
 
@@ -59,12 +56,10 @@ Run the below command to install & run the project
 ##### List
 - **Endpoint:** '/api/book'
 - **Method:** GET
-- **Request Body:** ```{  }```
 
 ##### Read
 - **Endpoint:** '/api/book/:id'
 - **Method:** GET
-- **Request Body:** ```{  }```
 
 ##### Update
 - **Endpoint:** '/api/book/:id'
@@ -74,7 +69,6 @@ Run the below command to install & run the project
 ##### Delete
 - **Endpoint:** '/api/book/:id'
 - **Method:** DELETE
-- **Request Body:** ```{  }```
 
 ### Publisher Module
 
@@ -86,12 +80,10 @@ Run the below command to install & run the project
 ##### List
 - **Endpoint:** '/api/publisher'
 - **Method:** GET
-- **Request Body:** ```{  }```
 
 ##### Read
 - **Endpoint:** '/api/publisher/:id'
 - **Method:** GET
-- **Request Body:** ```{  }```
 
 ##### Update
 - **Endpoint:** '/api/publisher/:id'
@@ -101,4 +93,3 @@ Run the below command to install & run the project
 ##### Delete
 - **Endpoint:** '/api/publisher/:id'
 - **Method:** DELETE
-- **Request Body:** ```{  }```
